@@ -34,6 +34,7 @@ class NEAT(NEAlgorithm):
         self.pop = neat.Population(self.config)
         self.pop.add_reporter(neat.StatisticsReporter())
         self.pop.add_reporter(neat.StdOutReporter(True))
+        self._best_params = None
 
     def class_to_array(self, genome: neat.genome.DefaultGenome) -> jnp.ndarray:
         genome = FeedForwardNetwork.create(genome, self.config)
@@ -70,6 +71,7 @@ class NEAT(NEAlgorithm):
         # Track the best genome ever seen.
         if self.pop.best_genome is None or best.fitness > self.pop.best_genome.fitness:
             self.pop.best_genome = best
+            self._best_params = self.class_to_array(best)
 
         # Create the next generation from the current generation.
         self.pop.population = self.pop.reproduction.reproduce(self.pop.config, self.pop.species,
@@ -97,3 +99,6 @@ class NEAT(NEAlgorithm):
 
         if self.pop.config.no_fitness_termination:
             self.pop.reporters.found_solution(self.pop.config, self.pop.generation, self.pop.best_genome)
+
+    def best_params(self) -> jnp.ndarray:
+        return self._best_params
