@@ -75,6 +75,7 @@ class NEAT(NEAlgorithm):
         self.pop.population = self.pop.reproduction.reproduce(self.pop.config, self.pop.species,
             self.pop.config.pop_size, self.pop.generation)
 
+
         # Check for complete extinction.
         if not self.pop.species.species:
             self.pop.reporters.complete_extinction()

@@ -310,6 +310,7 @@ class SimManager(object):
                         params: jnp.ndarray,
                         test: bool) -> Tuple[jnp.ndarray, TaskState]:
         """Rollout using jax.lax.scan."""
+        pop_size = len(params)
         policy_reset_func = self._policy_reset_fn
         if test:
             n_repeats = self._test_n_repeats
@@ -340,7 +341,7 @@ class SimManager(object):
         params = duplicate_params(params, n_repeats, self._ma_training)
 
         self._key, reset_keys = get_task_reset_keys(
-            self._key, test, self._pop_size, self._n_evaluations, n_repeats,
+            self._key, test, pop_size, self._n_evaluations, n_repeats,
             self._ma_training)
 
         # Reset the tasks and the policy.

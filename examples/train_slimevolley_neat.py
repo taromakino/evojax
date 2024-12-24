@@ -82,10 +82,10 @@ def parse_args():
         '--num-outputs', default=3
     )
     parser.add_argument(
-        '--max-nodes', default=512
+        '--max-nodes', default=32
     )
     parser.add_argument(
-        '--max-connections_per_node', default=128
+        '--max-connections_per_node', default=32
     )
     config, _ = parser.parse_known_args()
     return config
