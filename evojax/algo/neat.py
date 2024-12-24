@@ -71,7 +71,7 @@ class NEAT(NEAlgorithm):
         # Track the best genome ever seen.
         if self.pop.best_genome is None or best.fitness > self.pop.best_genome.fitness:
             self.pop.best_genome = best
-            self._best_params = self.class_to_array(best)
+            self.best_params = self.class_to_array(best)
 
         # Create the next generation from the current generation.
         self.pop.population = self.pop.reproduction.reproduce(self.pop.config, self.pop.species,
@@ -100,5 +100,10 @@ class NEAT(NEAlgorithm):
         if self.pop.config.no_fitness_termination:
             self.pop.reporters.found_solution(self.pop.config, self.pop.generation, self.pop.best_genome)
 
+    @property
     def best_params(self) -> jnp.ndarray:
         return self._best_params
+
+    @best_params.setter
+    def best_params(self, params: Union[np.ndarray, jnp.ndarray]) -> None:
+        self._best_params = params
