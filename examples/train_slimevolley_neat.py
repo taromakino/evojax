@@ -100,8 +100,9 @@ def main(config):
     logger.info('EvoJAX SlimeVolley')
     logger.info('=' * 30)
 
-    train_task = SlimeVolley(test=False)
-    test_task = SlimeVolley(test=True)
+    max_steps = 3000
+    train_task = SlimeVolley(test=False, max_steps=max_steps)
+    test_task = SlimeVolley(test=True, max_steps=max_steps)
     policy = NEATPolicy(config.num_inputs, config.num_outputs, config.max_nodes, config.max_connections_per_node)
     solver = NEAT(config.config_fpath, config.max_nodes, config.max_connections_per_node)
     # Train.

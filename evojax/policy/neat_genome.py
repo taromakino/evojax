@@ -19,14 +19,14 @@ class NEATPolicy(PolicyNetwork):
                 params: jnp.ndarray,
                 x: jnp.ndarray) -> jnp.ndarray:
         out = jnp.zeros(self.max_nodes)
-        out.at[-self.num_inputs:].set(x)
+        out = out.at[-self.num_inputs:].set(x)
         for i in range(self.max_nodes):
             node_aggr = 0.
-            bias, response = params[i, :2]
+            bias, response = params[i, 0], params[i, 1]
             for j in range(2, self.max_connections_per_node - 1, 2):
                 node_in, weight = params[i, j], params[i, j + 1]
                 node_aggr += jnp.where(jnp.isnan(node_in), 0., out[node_in.astype(int)] * weight)
-            out.at[i].set(jnp.tanh(bias + response * node_aggr))
+            out = out.at[i].set(jnp.tanh(bias + response * node_aggr))
         return out[:self.num_outputs]
 
     def get_actions(self,

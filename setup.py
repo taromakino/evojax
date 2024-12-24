@@ -48,6 +48,8 @@ setup(
         "cma",
         "matplotlib",
         "pyyaml",
+        "neat-python",
+        "opencv-python",
     ],
     extras_require={
         "extra": ['evosax', 'torchvision', 'pandas', 'procgen', 'brax'],
